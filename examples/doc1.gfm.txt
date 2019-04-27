@@ -1,0 +1,67 @@
+;format:gf-markup
+
+==Header 2==
+===Header 3===
+====Header 4====
+=====Header 5=====
+Hello!
+
+These lines will end up
+in a single
+continuous paragraph.
+
+
+
+Many blank lines are condensed.
+
+''Bold'' or '''Italic''' or --u--Underline--u--
+
+'''''Bold and italic'''''
+
+''--u--Bold underline--u--'' and --u--''underline bold''--u--
+
+'''--u--Italic underline--u--''' and --u--'''underline italic'''--u--
+
+'''''--u--All three--u--''''' and --u--'''''also all three'''''--u--
+
+-s-Spoiler-s-
+
+Link to [[Header 2]]
+
+Link to [[Header 2|custom header 2]]
+
+%
+
+* ''Bullet'' 1
+* Bullet 2
+** Bullet 2.1
+* Bullet 3
+After.
+
+# ''Number'' 1
+## Number 1.1
+# Number 2
+After.
+
+: ''Indent'' 1
+:: Indent 1.1
+: Indent 2
+After.
+
+=--Box--=
+This is in
+a ''named'' box.
+=-=
+After.
+
+=-----=
+This is in
+a ''nameless'' box.
+=-=
+After.
+
+|*This   |*is |*the     |*table |*header |
+|-3 This | is |r ''a''  | table | row    |
+         | is | another | table | row    |
+         | is |c+2 a centered   | row    |
+After.

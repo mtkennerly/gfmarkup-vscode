@@ -1,0 +1,11 @@
+;format:gf-markup
+
+==Header 2==
+Hello!
+
+These lines will end up in a single
+continuous paragraph.
+
+* Bullet 1
+** Bullet 1.1
+* Bullet 2

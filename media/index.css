@@ -1,0 +1,49 @@
+body.scrollBeyond {
+    margin-bottom: 100vh;
+}
+nav {
+    border: 1px solid;
+    padding-left: 10px;
+}
+h2 {
+    border-bottom: 2px solid blue;
+}
+h3 {
+    border-bottom: 1px dashed blue;
+}
+h4 > span {
+    border-bottom: 1px solid blue;
+}
+h5 > span {
+    border-bottom: 1px solid blue;
+}
+table {
+    border-collapse: collapse;
+}
+table, th, td {
+    border: 1px solid white;
+}
+th, td {
+    padding: 3px;
+}
+.box {
+    border-style: solid;
+    padding: 3px;
+    width: 60%;
+}
+.spoiler {
+    color: black;
+    background-color: black;
+}
+.spoiler:hover {
+    color: white;
+}
+.cell-l {
+    text-align: left;
+}
+.cell-c {
+    text-align: center;
+}
+.cell-r {
+    text-align: right;
+}

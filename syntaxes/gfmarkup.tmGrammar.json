@@ -1,0 +1,328 @@
+{
+  "scopeName": "source.gfmarkup",
+  "patterns": [
+    {
+      "include": "#block"
+    },
+    {
+      "include": "#inline"
+    }
+  ],
+  "repository": {
+    "block": {
+      "patterns": [
+        {
+          "include": "#header"
+        },
+        {
+          "include": "#list"
+        },
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#box"
+        },
+        {
+          "include": "#table"
+        },
+        {
+          "include": "#separator"
+        }
+      ]
+    },
+    "inline": {
+      "patterns": [
+        {"include": "#underline-bold-italic"},
+        {"include": "#bold-italic-underline"},
+        {"include": "#underline-italic"},
+        {"include": "#underline-bold"},
+        {"include": "#bold-underline"},
+        {"include": "#italic-underline"},
+        {"include": "#bold-italic"},
+        {
+          "include": "#underline"
+        },
+        {
+          "include": "#italic"
+        },
+        {
+          "include": "#bold"
+        },
+        {
+          "include": "#spoiler"
+        },
+        {
+          "include": "#link"
+        }
+      ]
+    },
+    "header": {
+      "patterns": [
+        {
+          "match": "^==[^=]+.*==$",
+          "name": "markup.heading.2.gfmarkup"
+        },
+        {
+          "match": "^===[^=]+.*===$",
+          "name": "markup.heading.3.gfmarkup"
+        },
+        {
+          "match": "^====[^=]+.*====$",
+          "name": "markup.heading.4.gfmarkup"
+        },
+        {
+          "match": "^=====[^=]+.*=====$",
+          "name": "markup.heading.5.gfmarkup"
+        }
+      ]
+    },
+    "list": {
+      "patterns": [
+        {
+          "match": "^\\*+([^*]+.*)$",
+          "name": "list.unnumbered.gfmarkup",
+          "captures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#inline"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "match": "^#+([^#]+.*)$",
+          "name": "list.numbered.gfmarkup",
+          "captures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#inline"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "match": "^:+([^:]+.*)$",
+          "name": "list.unnumbered.gfmarkup",
+          "captures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#inline"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "comment": {
+      "match": "^;.*",
+      "name": "comment.line.semicolon.gfmarkup"
+    },
+    "bold": {
+      "match": "''(.+?)''",
+      "name": "markup.bold.gfmarkup",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#inline"
+            }
+          ]
+        }
+      }
+    },
+    "italic": {
+      "match": "'''(.+?)'''",
+      "name": "markup.italic.gfmarkup",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#inline"
+            }
+          ]
+        }
+      }
+    },
+    "underline": {
+      "match": "--u--(.+?)--u--",
+      "name": "markup.underline.gfmarkup",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#inline"
+            }
+          ]
+        }
+      }
+    },
+    "bold-italic": {
+      "match": "'''''(.+?)'''''",
+      "name": "markup.bold-italic.gfmarkup",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#inline"
+            }
+          ]
+        }
+      }
+    },
+    "bold-underline": {
+      "match": "''--u--(.+?)--u--''",
+      "name": "markup.bold-underline.gfmarkup",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#inline"
+            }
+          ]
+        }
+      }
+    },
+    "italic-underline": {
+      "match": "'''--u--(.+?)--u--'''",
+      "name": "markup.italic-underline.gfmarkup",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#inline"
+            }
+          ]
+        }
+      }
+    },
+    "bold-italic-underline": {
+      "match": "'''''--u--(.+?)--u--'''''",
+      "name": "markup.bold-italic-underline.gfmarkup",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#inline"
+            }
+          ]
+        }
+      }
+    },
+    "underline-bold": {
+      "match": "--u--''(.+?)''--u--",
+      "name": "markup.bold-underline.gfmarkup",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#inline"
+            }
+          ]
+        }
+      }
+    },
+    "underline-italic": {
+      "match": "--u--'''(.+?)'''--u--",
+      "name": "markup.italic-underline.gfmarkup",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#inline"
+            }
+          ]
+        }
+      }
+    },
+    "underline-bold-italic": {
+      "match": "--u--'''''(.+?)'''''--u--",
+      "name": "markup.bold-italic-underline.gfmarkup",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#inline"
+            }
+          ]
+        }
+      }
+    },
+    "spoiler": {
+      "match": "-s-(.+?)-s-",
+      "name": "markup.spoiler.gfmarkup",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#inline"
+            }
+          ]
+        }
+      }
+    },
+    "link": {
+      "match": "\\[\\[.+?(\\|(.+?))?\\]\\]",
+      "name": "markup.underline.link.gfmarkup",
+      "captures": {
+        "2": {
+          "patterns": [
+            {
+              "include": "#inline"
+            }
+          ]
+        }
+      }
+    },
+    "separator": {
+      "match": "^%$",
+      "name": "markup.separator.gfmarkup"
+    },
+    "box": {
+      "patterns": [
+        {
+          "include": "#named-box"
+        },
+        {
+          "include": "#nameless-box"
+        }
+      ]
+    },
+    "named-box": {
+      "begin": "^=--.+--=$",
+      "end": "=-=",
+      "name": "markup.quote.gfmarkup",
+      "patterns": [
+        {
+          "include": "#inline"
+        }
+      ]
+    },
+    "nameless-box": {
+      "begin": "^=-----=$",
+      "end": "=-=",
+      "name": "markup.quote.gfmarkup",
+      "patterns": [
+        {
+          "include": "#inline"
+        }
+      ]
+    },
+    "table": {
+      "begin": "^\\|",
+      "end": "^ ?[^| ]",
+      "name": "markup.table.gfmarkup",
+      "patterns": [
+        {
+          "include": "#inline"
+        }
+      ]
+    }
+  }
+}
