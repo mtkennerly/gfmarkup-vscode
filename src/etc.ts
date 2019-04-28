@@ -85,7 +85,7 @@ export function getMediaResource(resource: string): string {
     return `vscode-resource://${getMediaFile(resource).toString()}`;
 }
 
-export function fromUndefined<A, B>(value: A | undefined, fallback: B) {
+export function fromUndefined<A>(value: A | undefined, fallback: A): A {
     if (value === undefined) {
         return fallback;
     } else {

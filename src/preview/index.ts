@@ -9,12 +9,30 @@ const vscode = acquireVsCodeApi();
 let previousScrolledLine = 0;
 let nextVscodeCallbackFired = true;
 let shouldSyncEditorToPreview = true;
+let scrolls = 0;
 
-function syncPreviewToEditor(event: MessageEvent) {
+function handleMessage(event: MessageEvent) {
+    const type = event.data["type"];
+    if (type === "sync") {
+        syncPreviewToEditor(event.data["topLine"]);
+    }
+    markNextVscodeCallbackFired();
+}
+
+function handleScroll(event: Event) {
+    if (scrolls < 2) {
+        // When undoing changes in the editor, up to 2 spurious scroll events
+        // may be triggered. This check prevents erratic re-synchronization.
+        scrolls += 1;
+        return;
+    }
+    syncEditorToPreview();
+}
+
+function syncPreviewToEditor(codeLine: number) {
     if (!nextVscodeCallbackFired) {
         return;
     }
-    const codeLine = event.data["topLine"];
     const element = window.document.querySelector(`[code-line="${codeLine}"]`);
     if (element !== null) {
         shouldSyncEditorToPreview = false;
@@ -23,7 +41,7 @@ function syncPreviewToEditor(event: MessageEvent) {
     }
 }
 
-function syncEditorToPreview(event: Event) {
+function syncEditorToPreview() {
     if (!shouldSyncEditorToPreview) {
         return;
     }
@@ -42,7 +60,7 @@ function syncEditorToPreview(event: Event) {
                     previousScrolledLine = newLine;
 
                     nextVscodeCallbackFired = false;
-                    vscode.postMessage({ "topLine": newLine });
+                    vscode.postMessage({ "type": "sync", "topLine": newLine });
 
                     return;
                 }
@@ -51,10 +69,9 @@ function syncEditorToPreview(event: Event) {
     }
 }
 
-function markNextVscodeCallbackFired(event: MessageEvent) {
+function markNextVscodeCallbackFired() {
     nextVscodeCallbackFired = true;
 }
 
-window.addEventListener('message', syncPreviewToEditor);
-window.addEventListener('message', markNextVscodeCallbackFired);
-window.addEventListener("scroll", syncEditorToPreview);
+window.addEventListener('message', handleMessage);
+window.addEventListener("scroll", handleScroll);

@@ -61,12 +61,15 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
     panel.webview.html = gfm.renderMarkup(editor.document);
     panel.webview.options = { enableScripts: true };
     panel.webview.onDidReceiveMessage(event => {
-        for (let visibleEditor of vscode.window.visibleTextEditors) {
-            if (visibleEditor.document.uri === previewedUri) {
-                visibleEditor.revealRange(
-                    new vscode.Range(event["topLine"], 0, event["topLine"] + 1, 0),
-                    vscode.TextEditorRevealType.AtTop,
-                );
+        const type = event["type"];
+        if (type === "sync") {
+            for (let visibleEditor of vscode.window.visibleTextEditors) {
+                if (visibleEditor.document.uri === previewedUri) {
+                    visibleEditor.revealRange(
+                        new vscode.Range(event["topLine"], 0, event["topLine"] + 1, 0),
+                        vscode.TextEditorRevealType.AtTop,
+                    );
+                }
             }
         }
     });
@@ -81,6 +84,6 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
         if (!state.includes(panel) || event.textEditor.document.uri !== previewedUri) {
             return;
         }
-        panel.webview.postMessage({ "topLine": event.visibleRanges[0].start.line });
+        panel.webview.postMessage({ "type": "sync", "topLine": event.visibleRanges[0].start.line });
     });
 }
