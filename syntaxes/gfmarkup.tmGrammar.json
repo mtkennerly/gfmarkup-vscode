@@ -33,13 +33,27 @@
     },
     "inline": {
       "patterns": [
-        {"include": "#underline-bold-italic"},
-        {"include": "#bold-italic-underline"},
-        {"include": "#underline-italic"},
-        {"include": "#underline-bold"},
-        {"include": "#bold-underline"},
-        {"include": "#italic-underline"},
-        {"include": "#bold-italic"},
+        {
+          "include": "#underline-bold-italic"
+        },
+        {
+          "include": "#bold-italic-underline"
+        },
+        {
+          "include": "#underline-italic"
+        },
+        {
+          "include": "#underline-bold"
+        },
+        {
+          "include": "#bold-underline"
+        },
+        {
+          "include": "#italic-underline"
+        },
+        {
+          "include": "#bold-italic"
+        },
         {
           "include": "#underline"
         },
@@ -125,134 +139,104 @@
       "name": "comment.line.semicolon.gfmarkup"
     },
     "bold": {
-      "match": "''(.+?)''",
+      "begin": "''",
+      "end": "''",
       "name": "markup.bold.gfmarkup",
-      "captures": {
-        "1": {
           "patterns": [
             {
               "include": "#inline"
             }
           ]
-        }
-      }
     },
     "italic": {
-      "match": "'''(.+?)'''",
+      "begin": "'''",
+      "end": "'''",
       "name": "markup.italic.gfmarkup",
-      "captures": {
-        "1": {
           "patterns": [
             {
               "include": "#inline"
             }
           ]
-        }
-      }
     },
     "underline": {
-      "match": "--u--(.+?)--u--",
+      "begin": "--u--",
+      "end": "--u--",
       "name": "markup.underline.gfmarkup",
-      "captures": {
-        "1": {
           "patterns": [
             {
               "include": "#inline"
             }
           ]
-        }
-      }
     },
     "bold-italic": {
-      "match": "'''''(.+?)'''''",
+      "begin": "'''''",
+      "end": "'''''",
       "name": "markup.bold-italic.gfmarkup",
-      "captures": {
-        "1": {
           "patterns": [
             {
               "include": "#inline"
             }
           ]
-        }
-      }
     },
     "bold-underline": {
-      "match": "''--u--(.+?)--u--''",
+      "begin": "''--u--",
+      "end": "--u--''",
       "name": "markup.bold-underline.gfmarkup",
-      "captures": {
-        "1": {
           "patterns": [
             {
               "include": "#inline"
             }
           ]
-        }
-      }
     },
     "italic-underline": {
-      "match": "'''--u--(.+?)--u--'''",
+      "begin": "'''--u--",
+      "end": "--u--'''",
       "name": "markup.italic-underline.gfmarkup",
-      "captures": {
-        "1": {
           "patterns": [
             {
               "include": "#inline"
             }
           ]
-        }
-      }
     },
     "bold-italic-underline": {
-      "match": "'''''--u--(.+?)--u--'''''",
+      "begin": "'''''--u--",
+      "end": "--u--'''''",
       "name": "markup.bold-italic-underline.gfmarkup",
-      "captures": {
-        "1": {
           "patterns": [
             {
               "include": "#inline"
             }
           ]
-        }
-      }
     },
     "underline-bold": {
-      "match": "--u--''(.+?)''--u--",
+      "begin": "--u--''",
+      "end": "''--u--",
       "name": "markup.bold-underline.gfmarkup",
-      "captures": {
-        "1": {
           "patterns": [
             {
               "include": "#inline"
             }
           ]
-        }
-      }
     },
     "underline-italic": {
-      "match": "--u--'''(.+?)'''--u--",
+      "begin": "--u--'''",
+      "end": "'''--u--",
       "name": "markup.italic-underline.gfmarkup",
-      "captures": {
-        "1": {
           "patterns": [
             {
               "include": "#inline"
             }
           ]
-        }
-      }
     },
     "underline-bold-italic": {
-      "match": "--u--'''''(.+?)'''''--u--",
+      "begin": "--u--'''''",
+      "end": "'''''--u--",
       "name": "markup.bold-italic-underline.gfmarkup",
-      "captures": {
-        "1": {
           "patterns": [
             {
               "include": "#inline"
             }
           ]
-        }
-      }
     },
     "spoiler": {
       "match": "-s-(.+?)-s-",

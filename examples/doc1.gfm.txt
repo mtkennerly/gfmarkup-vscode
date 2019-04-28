@@ -24,6 +24,14 @@ Many blank lines are condensed.
 
 '''''--u--All three--u--''''' and --u--'''''also all three'''''--u--
 
+''Bold
+and''
+'''italic
+and'''
+--u--underline
+can be multi-line--u--
+within a paragraph.
+
 -s-Spoiler-s-
 
 Link to [[Header 2]]

@@ -6,22 +6,27 @@ nav {
     padding-left: 10px;
 }
 h2 {
-    border-bottom: 2px solid blue;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
 }
 h3 {
-    border-bottom: 1px dashed blue;
+    border-bottom-width: 1px;
+    border-bottom-style: dashed;
 }
 h4 > span {
-    border-bottom: 1px solid blue;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
 }
 h5 > span {
-    border-bottom: 1px solid blue;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
 }
 table {
     border-collapse: collapse;
 }
 table, th, td {
-    border: 1px solid white;
+    border-width: 1px;
+    border-style: solid;
 }
 th, td {
     padding: 3px;

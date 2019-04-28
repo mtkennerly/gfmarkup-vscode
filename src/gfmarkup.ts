@@ -95,10 +95,10 @@ function renderMarkupBody(documentText: string): string {
         .replace(/^=====([^=]+.*)=====$/gm, (match, p1, offset, string) => {
             return `<h5 id='${normalizeId(p1)}'><span>${p1}</span></h2>`;
         })
-        .replace(/'''''(.+?)'''''/gm, "<b><i>$1</i></b>")
-        .replace(/'''(.+?)'''/gm, "<i>$1</i>")
-        .replace(/''(.+?)''/gm, "<b>$1</b>")
-        .replace(/\-\-u\-\-(.+?)\-\-u\-\-/gm, "<u>$1</u>")
+        .replace(/'''''(.+?)'''''/gms, "<b><i>$1</i></b>")
+        .replace(/'''(.+?)'''/gms, "<i>$1</i>")
+        .replace(/''(.+?)''/gms, "<b>$1</b>")
+        .replace(/\-\-u\-\-(.+?)\-\-u\-\-/gms, "<u>$1</u>")
         .replace(/-s-(.+?)-s-/gm, "<span class='spoiler'>$1</span>")
         .replace(/\[\[(.+?)\|(.+?)\]\]/gm, (match, p1, p2, offset, string) => {
             return `<a href='#${normalizeId(p1)}'>${p2}</a>`;

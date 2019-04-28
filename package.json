@@ -4,6 +4,10 @@
   "description": "Preview and format GameFAQs Markup files",
   "version": "0.1.0",
   "publisher": "mtkennerly",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mtkennerly/gfmarkup-vscode"
+  },
   "engines": {
     "vscode": "^1.33.0"
   },
