@@ -10,6 +10,8 @@ text file format.
 * HTML preview of the final document, including table of contents,
   clickable links, and synchronized scrolling.
 
+![Extension demo](demo.gif)
+
 ## Usage
 
 The extension will automatically recognize any file whose name ends with
