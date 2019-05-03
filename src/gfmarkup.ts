@@ -141,7 +141,8 @@ function renderMarkupBody(documentText: string): string {
                 return x;
             }
         }).join("\n")
-        .replace(/(\r?\n){2,}/gms, "<br><br>\n");
+        .replace(/(\r?\n){2,}/gms, "<br><br>\n")
+        .replace(/<\/(table|ul|ol|dl)>\r?\n?<br><br>/gm, "</$1><br>");
 }
 
 function renderMarkupToc(documentText: string): string {

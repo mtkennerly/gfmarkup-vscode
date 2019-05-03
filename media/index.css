@@ -27,6 +27,10 @@ table {
 table, th, td {
     border-width: 1px;
     border-style: solid;
+    border-color: white;
+}
+.vscode-light table, .vscode-light th, .vscode-light td {
+    border-color: black;
 }
 th, td {
     padding: 3px;
