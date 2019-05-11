@@ -47,6 +47,7 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
     const editor = vscode.window.activeTextEditor;
     const okay = precheckEditorForGfm(editor);
     if (!okay || editor === undefined) { return; }
+    let topLine = editor.visibleRanges[0].start.line;
 
     const previewedUri = editor.document.uri;
     const panel = vscode.window.createWebviewPanel(
@@ -60,7 +61,7 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
         state = state.filter(x => { return x !== panel; });
     });
 
-    panel.webview.html = gfm.renderMarkup(editor.document);
+    panel.webview.html = gfm.renderMarkup(editor.document, topLine);
     panel.webview.options = { enableScripts: true };
     panel.webview.onDidReceiveMessage(event => {
         const type = event["type"];
@@ -79,7 +80,7 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
     const updatePreview = throttle(
         (event: vscode.TextDocumentChangeEvent) => {
             logTest("editor: THROTTLED UPDATE");
-            panel.webview.html = gfm.renderMarkup(event.document);
+            panel.webview.html = gfm.renderMarkup(event.document, topLine);
         },
         200
     );
@@ -96,6 +97,7 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
             return;
         }
         logTest("editor: changed VISIBLE");
-        panel.webview.postMessage({ "type": "sync", "topLine": event.visibleRanges[0].start.line });
+        topLine = event.visibleRanges[0].start.line;
+        panel.webview.postMessage({ "type": "sync", "topLine": topLine });
     });
 }

@@ -1,5 +1,7 @@
 import { logTest } from '../etc';
 
+window.onload = handleLoad;
+
 logTest("preview: CREATED");
 
 function isVisible(element: Element) {
@@ -8,8 +10,10 @@ function isVisible(element: Element) {
     return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
 }
 
+declare var initialTopLine: number;
 declare var acquireVsCodeApi: any;
 const vscode = acquireVsCodeApi();
+let needInitialScroll = true;
 let previousScrolledLine = 0;
 let nextVscodeCallbackFired = true;
 let shouldSyncEditorToPreview = true;
@@ -33,8 +37,15 @@ function handleScroll(event: Event) {
     syncEditorToPreview();
 }
 
+function handleLoad() {
+    syncPreviewToEditor(initialTopLine);
+}
+
 function syncPreviewToEditor(codeLine: number) {
-    if (!nextVscodeCallbackFired) {
+    if (needInitialScroll) {
+        logTest(`preview: doing initial scroll to ${codeLine}`);
+        needInitialScroll = false;
+    } else if (!nextVscodeCallbackFired) {
         return;
     }
     const element = window.document.querySelector(`[code-line="${codeLine}"]`);
@@ -42,6 +53,8 @@ function syncPreviewToEditor(codeLine: number) {
         shouldSyncEditorToPreview = false;
         element.scrollIntoView();
         setTimeout(() => { shouldSyncEditorToPreview = true; }, 100);
+    } else if (codeLine > 0) {
+        syncPreviewToEditor(codeLine - 1);
     }
 }
 

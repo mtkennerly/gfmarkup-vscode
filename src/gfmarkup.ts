@@ -191,7 +191,7 @@ function renderMarkupToc(documentText: string): string {
     return `<nav><p>Table of contents</p><ol>${out}</ol></nav>`;
 }
 
-export function renderMarkup(document: vscode.TextDocument): string {
+export function renderMarkup(document: vscode.TextDocument, topLine: number): string {
     const toc = renderMarkupToc(document.getText());
     const body = renderMarkupBody(document.getText());
     const scrollBeyond = fromUndefined(
@@ -201,6 +201,7 @@ export function renderMarkup(document: vscode.TextDocument): string {
     return `
         <!DOCTYPE html>
         <head>
+            <script>const initialTopLine = ${topLine};</script>
             <script async src="${getMediaResource("index.js")}"></script>
             <link rel="stylesheet" type="text/css" href="${getMediaResource("index.css")}" />
         </head>
