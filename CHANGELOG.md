@@ -1,4 +1,4 @@
-## Unreleased
+## v0.2.2 (2019-05-11)
 
 * Fixed issue where headers with HTML special characters were not properly
   clickable in the table of contents.
