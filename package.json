@@ -63,15 +63,7 @@
         "scopeName": "source.gfmarkup",
         "path": "./syntaxes/gfmarkup.tmGrammar.json"
       }
-    ],
-    "menus": {
-      "commandPalette": [
-        {
-          "command": "gfmarkup.openPreview",
-          "when": "editorFocus"
-        }
-      ]
-    }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile && webpack --mode production",
