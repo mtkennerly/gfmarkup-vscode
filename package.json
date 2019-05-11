@@ -86,6 +86,8 @@
     "webpack-cli": "^3.3.0"
   },
   "dependencies": {
+    "@types/lodash.escape": "^4.0.6",
+    "lodash.escape": "^4.0.1",
     "lodash.throttle": "^4.1.1"
   }
 }

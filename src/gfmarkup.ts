@@ -1,12 +1,14 @@
 import * as vscode from 'vscode';
+import * as crypto from 'crypto';
 import { getMediaResource } from './config';
 import { fromUndefined } from './etc';
+import escape = require("lodash.escape");
 
 export const LANG_ID = "gfmarkup";
 export const SHEBANG = ";format:gf-markup";
 
 function normalizeId(raw: string): string {
-    return raw.toLowerCase().replace(" ", "___");
+    return crypto.createHash("sha1").update(raw).digest("hex");
 }
 
 function handleList(input: string, prefix: string, container: string, item: string): string {
@@ -178,11 +180,11 @@ function renderMarkupToc(documentText: string): string {
 
     let out = "";
     for (const [h2, h3s] of headers) {
-        out += `<li><a href="#${normalizeId(h2)}">${h2}</a></li>`;
+        out += `<li><a href="#${normalizeId(h2)}">${escape(h2)}</a></li>`;
         if (h3s) {
             out += "<ol>";
             for (const h3 of h3s) {
-                out += `<li><a href="#${normalizeId(h3)}">${h3}</a></li>`;
+                out += `<li><a href="#${normalizeId(h3)}">${escape(h3)}</a></li>`;
             }
             out += "</ol>";
         }

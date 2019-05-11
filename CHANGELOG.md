@@ -1,3 +1,10 @@
+## Unreleased
+
+* Fixed issue where headers with multiple spaces were not properly clickable
+  in the table of contents.
+* Fixed issue where headers with HTML special characters in the name were not
+  displayed correctly in the table of contents.
+
 ## v0.2.0 (2019-05-10)
 
 * Changed the default of `gfmarkup.autoScan` to `true` to make it as easy as

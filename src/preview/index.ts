@@ -74,7 +74,7 @@ function syncEditorToPreview() {
                     if (newLine === previousScrolledLine) {
                         return;
                     }
-                    logTest(`preview: syncing to editor on line ${newLine}`);
+                    logTest(`preview: syncing editor to line ${newLine}`);
                     previousScrolledLine = newLine;
 
                     nextVscodeCallbackFired = false;
