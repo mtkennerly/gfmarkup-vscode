@@ -8,16 +8,16 @@ text file format.
 
 * Syntax highlighting.
 * HTML preview of the final document, including table of contents,
-  clickable links, and synchronized scrolling.
+  clickable links, synchronized scrolling, and live updates as you type.
 
 ![Extension demo](demo.gif)
 
 ## Usage
 
 The extension will automatically recognize any file whose name ends with
-`.gfm.txt`. If your files don't match that pattern, you can either enable
-the `gfmarkup.autoScan` setting or issue the `Scan files for markup flag`
-command. See the following sections for more info.
+`.gfm.txt` or whose content begins with `;format:gf-markup`.
+
+See the next section for how to use the HTML preview.
 
 ## Commands
 
@@ -34,6 +34,7 @@ with `GameFAQs Markup: `.
 ## Settings
 
 * `gfmarkup.autoScan`
-  * The default is `false`, but you can set this to `true` to make the
-    extension automatically start scanning for markup files without running
-    the scan command.
+  * The default is `true`, meaning the extension will automatically start
+    scanning for markup files (`;format:gf-markup`) without you having to
+    run the scan command. You can set this to `false` to require either manual
+    scanning or a matching file extension (`.gfm.txt`).
