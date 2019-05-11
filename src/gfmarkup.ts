@@ -80,23 +80,20 @@ function handleTable(input: string): string {
 }
 
 function renderMarkupBody(documentText: string): string {
-    return documentText
-        .replace(/&/gm, "&amp;")
-        .replace(/</gm, "&lt;")
-        .replace(/>/gm, "&gt;")
+    return escape(documentText)
         .replace(/^;.*$/gm, "")
         .replace(/^%$/gm, "<hr>")
         .replace(/^==([^=]+.*)==$/gm, (match, p1, offset, string) => {
             return `<h2 id='${normalizeId(p1)}'>${p1}</h2>`;
         })
         .replace(/^===([^=]+.*)===$/gm, (match, p1, offset, string) => {
-            return `<h3 id='${normalizeId(p1)}'>${p1}</h2>`;
+            return `<h3 id='${normalizeId(p1)}'>${p1}</h3>`;
         })
         .replace(/^====([^=]+.*)====$/gm, (match, p1, offset, string) => {
-            return `<h4 id='${normalizeId(p1)}'><span>${p1}</span></h2>`;
+            return `<h4 id='${normalizeId(p1)}'><span>${p1}</span></h4>`;
         })
         .replace(/^=====([^=]+.*)=====$/gm, (match, p1, offset, string) => {
-            return `<h5 id='${normalizeId(p1)}'><span>${p1}</span></h2>`;
+            return `<h5 id='${normalizeId(p1)}'><span>${p1}</span></h5>`;
         })
         .replace(/'''''(.+?)'''''/gms, "<b><i>$1</i></b>")
         .replace(/'''(.+?)'''/gms, "<i>$1</i>")
@@ -180,11 +177,13 @@ function renderMarkupToc(documentText: string): string {
 
     let out = "";
     for (const [h2, h3s] of headers) {
-        out += `<li><a href="#${normalizeId(h2)}">${escape(h2)}</a></li>`;
+        const escapedH2 = escape(h2);
+        out += `<li><a href="#${normalizeId(escapedH2)}">${escapedH2}</a></li>`;
         if (h3s) {
             out += "<ol>";
             for (const h3 of h3s) {
-                out += `<li><a href="#${normalizeId(h3)}">${escape(h3)}</a></li>`;
+                const escapedH3 = escape(h3);
+                out += `<li><a href="#${normalizeId(escapedH3)}">${escapedH3}</a></li>`;
             }
             out += "</ol>";
         }

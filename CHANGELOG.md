@@ -1,3 +1,8 @@
+## Unreleased
+
+* Fixed issue where headers with HTML special characters were not properly
+  clickable in the table of contents.
+
 ## v0.2.1 (2019-05-11)
 
 * Fixed issue where headers with multiple spaces were not properly clickable
