@@ -2,7 +2,7 @@
   "name": "gfmarkup",
   "displayName": "GameFAQs Markup",
   "description": "Syntax highlighting and preview for GameFAQs Markup files",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "mtkennerly",
   "repository": {
     "type": "git",
