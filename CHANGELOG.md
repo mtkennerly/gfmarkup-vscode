@@ -2,6 +2,8 @@
 
 * Fixed issue where headers with HTML special characters were not properly
   clickable in the table of contents.
+* Improved performance for large files where typing rapidly would make the
+  preview take longer to refresh.
 
 ## v0.2.1 (2019-05-11)
 

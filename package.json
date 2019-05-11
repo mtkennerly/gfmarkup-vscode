@@ -75,7 +75,7 @@
     "webpack-dev": "webpack --mode development --watch"
   },
   "devDependencies": {
-    "@types/lodash.throttle": "^4.1.6",
+    "@types/lodash.escape": "^4.0.6",
     "@types/mocha": "^2.2.42",
     "@types/node": "^10.12.21",
     "ts-loader": "^5.3.3",
@@ -86,8 +86,6 @@
     "webpack-cli": "^3.3.0"
   },
   "dependencies": {
-    "@types/lodash.escape": "^4.0.6",
-    "lodash.escape": "^4.0.1",
-    "lodash.throttle": "^4.1.1"
+    "lodash.escape": "^4.0.1"
   }
 }

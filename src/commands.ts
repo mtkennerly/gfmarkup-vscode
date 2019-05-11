@@ -2,7 +2,6 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as gfm from './gfmarkup';
 import { logTest } from './etc';
-import throttle = require('lodash.throttle');
 
 function precheckDocumentForGfm(document: vscode.TextDocument, silent: boolean = false): boolean {
     if (!gfm.isDocumentGfm(document)) {
@@ -48,6 +47,8 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
     const okay = precheckEditorForGfm(editor);
     if (!okay || editor === undefined) { return; }
     let topLine = editor.visibleRanges[0].start.line;
+    let waitingForPreviewToSpawn = false;
+    let needNewPreview = false;
 
     const previewedUri = editor.document.uri;
     const panel = vscode.window.createWebviewPanel(
@@ -65,6 +66,7 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
     panel.webview.options = { enableScripts: true };
     panel.webview.onDidReceiveMessage(event => {
         const type = event["type"];
+        logTest(`editor: got ${type} message from preview`);
         if (type === "sync") {
             for (let visibleEditor of vscode.window.visibleTextEditors) {
                 if (visibleEditor.document.uri === previewedUri) {
@@ -74,23 +76,39 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
                     );
                 }
             }
+        } else if (type === "previewInitialized") {
+            waitingForPreviewToSpawn = false;
+            if (needNewPreview) {
+                for (let visibleEditor of vscode.window.visibleTextEditors) {
+                    if (visibleEditor.document.uri === previewedUri) {
+                        updatePreview(visibleEditor.document);
+                        // Documents for the same URI will have the same
+                        // content, so we just need the first one.
+                        break;
+                    }
+                }
+                needNewPreview = false;
+            }
         }
     });
 
-    const updatePreview = throttle(
-        (event: vscode.TextDocumentChangeEvent) => {
-            logTest("editor: THROTTLED UPDATE");
-            panel.webview.html = gfm.renderMarkup(event.document, topLine);
-        },
-        200
-    );
+    function updatePreview(document: vscode.TextDocument) {
+        if (waitingForPreviewToSpawn) {
+            logTest("editor: updatePreview delaying");
+            needNewPreview = true;
+            return;
+        }
+        logTest("editor: updatePreview proceeding");
+        waitingForPreviewToSpawn = true;
+        panel.webview.html = gfm.renderMarkup(document, topLine);
+    }
 
     vscode.workspace.onDidChangeTextDocument(event => {
         if (!state.includes(panel) || event.document.uri !== previewedUri || event.contentChanges.length === 0) {
             return;
         }
         logTest(`editor: changed CONTENT | ${event.contentChanges.length} | ${event.contentChanges[0].text}`);
-        updatePreview(event);
+        updatePreview(event.document);
     });
     vscode.window.onDidChangeTextEditorVisibleRanges(event => {
         if (!state.includes(panel) || event.textEditor.document.uri !== previewedUri || event.visibleRanges.length === 0) {

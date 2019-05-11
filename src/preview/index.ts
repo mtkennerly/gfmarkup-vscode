@@ -42,10 +42,7 @@ function handleLoad() {
 }
 
 function syncPreviewToEditor(codeLine: number) {
-    if (needInitialScroll) {
-        logTest(`preview: doing initial scroll to ${codeLine}`);
-        needInitialScroll = false;
-    } else if (!nextVscodeCallbackFired) {
+    if (!needInitialScroll && !nextVscodeCallbackFired) {
         return;
     }
     const element = window.document.querySelector(`[code-line="${codeLine}"]`);
@@ -53,6 +50,11 @@ function syncPreviewToEditor(codeLine: number) {
         shouldSyncEditorToPreview = false;
         element.scrollIntoView();
         setTimeout(() => { shouldSyncEditorToPreview = true; }, 100);
+        if (needInitialScroll) {
+            logTest(`preview: did initial scroll to ${codeLine}`);
+            needInitialScroll = false;
+            vscode.postMessage({ "type": "previewInitialized" });
+        }
     } else if (codeLine > 0) {
         syncPreviewToEditor(codeLine - 1);
     }
