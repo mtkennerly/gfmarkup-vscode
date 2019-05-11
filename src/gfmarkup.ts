@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
-import { fromUndefined, getMediaResource } from './etc';
+import { getMediaResource } from './config';
+import { fromUndefined } from './etc';
 
 export const LANG_ID = "gfmarkup";
 export const SHEBANG = ";format:gf-markup";

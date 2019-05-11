@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as gfm from './gfmarkup';
+import { logTest } from './etc';
+import throttle = require('lodash.throttle');
 
 function precheckDocumentForGfm(document: vscode.TextDocument, silent: boolean = false): boolean {
     if (!gfm.isDocumentGfm(document)) {
@@ -74,16 +76,26 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
         }
     });
 
+    const updatePreview = throttle(
+        (event: vscode.TextDocumentChangeEvent) => {
+            logTest("editor: THROTTLED UPDATE");
+            panel.webview.html = gfm.renderMarkup(event.document);
+        },
+        200
+    );
+
     vscode.workspace.onDidChangeTextDocument(event => {
-        if (!state.includes(panel) || event.document.uri !== previewedUri) {
+        if (!state.includes(panel) || event.document.uri !== previewedUri || event.contentChanges.length === 0) {
             return;
         }
-        panel.webview.html = gfm.renderMarkup(event.document);
+        logTest(`editor: changed CONTENT | ${event.contentChanges.length} | ${event.contentChanges[0].text}`);
+        updatePreview(event);
     });
     vscode.window.onDidChangeTextEditorVisibleRanges(event => {
-        if (!state.includes(panel) || event.textEditor.document.uri !== previewedUri) {
+        if (!state.includes(panel) || event.textEditor.document.uri !== previewedUri || event.visibleRanges.length === 0) {
             return;
         }
+        logTest("editor: changed VISIBLE");
         panel.webview.postMessage({ "type": "sync", "topLine": event.visibleRanges[0].start.line });
     });
 }

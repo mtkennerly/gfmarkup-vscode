@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { scanForGfm, openPreview } from './commands';
-import { Config } from './etc';
+import { Config } from './config';
 
 function setConfig() {
     const config = vscode.workspace.getConfiguration();

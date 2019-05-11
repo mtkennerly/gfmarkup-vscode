@@ -1,3 +1,7 @@
+import { logTest } from '../etc';
+
+logTest("preview: CREATED");
+
 function isVisible(element: Element) {
     var rect = element.getBoundingClientRect();
     var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
@@ -57,6 +61,7 @@ function syncEditorToPreview() {
                     if (newLine === previousScrolledLine) {
                         return;
                     }
+                    logTest(`preview: syncing to editor on line ${newLine}`);
                     previousScrolledLine = newLine;
 
                     nextVscodeCallbackFired = false;
