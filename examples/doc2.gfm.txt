@@ -1,0 +1,28 @@
+;format:gf-markup
+
+This document demonstrates the ability to collapse sections.
+
+==no content to collapse in this section==
+==2a==
+
+==2b==
+
+===3a===
+
+===3b===
+
+====4a====
+
+====4b====
+
+=====5a=====
+
+=====5b=====
+
+==2c==
+
+===3c===
+
+====4c====
+
+=====5c=====

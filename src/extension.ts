@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { scanForGfm, openPreview } from './commands';
 import { Config } from './config';
-import { diagnoseIssues } from './gfmarkup';
+import { diagnoseIssues, GfmFoldingRangeProvider } from './editor';
 
 function setConfig() {
     const config = vscode.workspace.getConfiguration();
@@ -53,6 +53,8 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(event => {
         diagnoseIssues(event.document, diagnostics);
     }));
+
+    vscode.languages.registerFoldingRangeProvider("gfmarkup", new GfmFoldingRangeProvider());
 }
 
 export function deactivate() { }
