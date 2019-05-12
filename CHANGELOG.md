@@ -1,3 +1,7 @@
+## Unreleased
+
+* Added linting for duplicate level 2 and 3 headers.
+
 ## v0.2.2 (2019-05-11)
 
 * Fixed issue where headers with HTML special characters were not properly

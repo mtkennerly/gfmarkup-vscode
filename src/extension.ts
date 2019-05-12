@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { scanForGfm, openPreview } from './commands';
 import { Config } from './config';
+import { diagnoseIssues } from './gfmarkup';
 
 function setConfig() {
     const config = vscode.workspace.getConfiguration();
@@ -38,6 +39,19 @@ export function activate(context: vscode.ExtensionContext) {
     let previewState: Array<vscode.WebviewPanel> = [];
     context.subscriptions.push(vscode.commands.registerCommand('gfmarkup.openPreview', () => {
         openPreview(previewState);
+    }));
+
+    const diagnostics = vscode.languages.createDiagnosticCollection("gfmarkup");
+    if (vscode.window.activeTextEditor) {
+        diagnoseIssues(vscode.window.activeTextEditor.document, diagnostics);
+    }
+    context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(editor => {
+        if (editor) {
+            diagnoseIssues(editor.document, diagnostics);
+        }
+    }));
+    context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(event => {
+        diagnoseIssues(event.document, diagnostics);
     }));
 }
 
