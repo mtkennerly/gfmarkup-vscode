@@ -2,8 +2,9 @@
   "name": "gfmarkup",
   "displayName": "GameFAQs Markup",
   "description": "Syntax highlighting and preview for GameFAQs Markup files",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "publisher": "mtkennerly",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/mtkennerly/gfmarkup-vscode"

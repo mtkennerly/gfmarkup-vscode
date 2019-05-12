@@ -9,6 +9,8 @@ text file format.
 * Syntax highlighting.
 * HTML preview of the final document, including table of contents,
   clickable links, synchronized scrolling, and live updates as you type.
+* Collapsible sections/headers in the editor.
+* Linting for duplicate header errors.
 
 ![Extension demo](demo.gif)
 

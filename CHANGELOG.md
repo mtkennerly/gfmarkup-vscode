@@ -1,4 +1,4 @@
-## Unreleased
+## v0.3.0 (2019-05-12)
 
 * Added linting for duplicate level 2 and 3 headers.
 * Added the ability to collapse sections/headers in the editor.
