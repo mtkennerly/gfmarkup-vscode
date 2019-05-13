@@ -280,27 +280,45 @@
     },
     "named-box": {
       "begin": "^=--.+--=$",
-      "end": "=-=",
+      "end": "^=-=$",
       "name": "markup.quote.gfmarkup",
       "patterns": [
         {
           "include": "#inline"
+        },
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#box"
+        },
+        {
+          "include": "#table"
         }
       ]
     },
     "nameless-box": {
       "begin": "^=-----=$",
-      "end": "=-=",
+      "end": "^=-=$",
       "name": "markup.quote.gfmarkup",
       "patterns": [
         {
           "include": "#inline"
+        },
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#box"
+        },
+        {
+          "include": "#table"
         }
       ]
     },
     "table": {
       "begin": "^\\|",
-      "end": "^ ?[^| ]",
+      "end": "^(?= ?[^| ])",
       "name": "markup.table.gfmarkup",
       "patterns": [
         {

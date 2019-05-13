@@ -73,3 +73,15 @@ After.
          | is | another | table | row    |
          | is |c+2 a centered   | row    |
 After.
+
+=--Boxes can contain other boxes and tables--=
+A
+=--Inner 1--=
+B
+| example |
+| table   |
+=-=
+=--Inner 2--=
+C
+=-=
+=-=

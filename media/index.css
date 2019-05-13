@@ -38,6 +38,8 @@ th, td {
 .box {
     border-style: solid;
     padding: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
     width: 60%;
 }
 .spoiler {

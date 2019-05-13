@@ -1,3 +1,9 @@
+## Unreleased
+
+* Added support for nested boxes.
+* Fixed syntax highlighting for items immediately after a table.
+* Fixed syntax highlighting for comments inside of boxes.
+
 ## v0.3.0 (2019-05-12)
 
 * Added linting for duplicate level 2 and 3 headers.

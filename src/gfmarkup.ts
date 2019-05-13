@@ -118,8 +118,9 @@ function renderMarkupBody(documentText: string): string {
         .replace(/^\|.+?\r?\n(?=\r?\n| *[^| ]|$)/gms, (match, offset, string) => {
             return handleTable(match);
         })
-        .replace(/=-----=\r?\n(.+?)\r?\n=-=/gms, "<div class='box'><span></span>\n$1\n<span></span></div>")
-        .replace(/=--(.+?)--=\r?\n(.+?)\r?\n=-=/gms, "<div class='box'><b>$1</b><br>\n$2\n<span></span></div>")
+        .replace(/^=-----=$/gm, "<div class='box'><span></span>")
+        .replace(/^=--(.+?)--=$/gm, "<div class='box'><b>$1</b><br>")
+        .replace(/^=-=$/gm, "<span></span></div>")
         .split(/\r?\n/).map((x, i) => {
             const firstTag = /<([^ >/]+)(.*)/;
             // Add the source line to the first tag on this line.
