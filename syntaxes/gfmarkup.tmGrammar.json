@@ -318,7 +318,7 @@
     },
     "table": {
       "begin": "^\\|",
-      "end": "^(?= ?[^| ])",
+      "end": "^(?=[^|])",
       "name": "markup.table.gfmarkup",
       "patterns": [
         {

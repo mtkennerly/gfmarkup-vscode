@@ -3,6 +3,7 @@
 * Added support for nested boxes.
 * Fixed syntax highlighting for items immediately after a table.
 * Fixed syntax highlighting for comments inside of boxes.
+* Fixed syntax and preview so that table rows cannot be indented.
 
 ## v0.3.0 (2019-05-12)
 

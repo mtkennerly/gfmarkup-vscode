@@ -115,7 +115,7 @@ function renderMarkupBody(documentText: string): string {
         .replace(/^\:.+?\r?\n(?=[^:]|$)/gms, (match, offset, string) => {
             return handleList(match, "\\:", "dl", "dd");
         })
-        .replace(/^\|.+?\r?\n(?=\r?\n| *[^| ]|$)/gms, (match, offset, string) => {
+        .replace(/^\|.+?\r?\n(?=[^|]|$)/gms, (match, offset, string) => {
             return handleTable(match);
         })
         .replace(/^=-----=$/gm, "<div class='box'><span></span>")

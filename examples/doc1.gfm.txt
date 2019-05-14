@@ -70,8 +70,8 @@ After.
 
 |*This   |*is |*the     |*table |*header |
 |-3 This | is |r ''a''  | table | row    |
-         | is | another | table | row    |
-         | is |c+2 a centered   | row    |
+|          is | another | table | row    |
+|          is |c+2 a centered   | row    |
 After.
 
 =--Boxes can contain other boxes and tables--=
