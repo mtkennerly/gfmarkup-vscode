@@ -1,10 +1,12 @@
 ## Unreleased
 
 * Added support for nested boxes.
+* Enabled the find feature in the preview.
+* Improved performance of synchronized scrolling.
 * Fixed syntax highlighting for items immediately after a table.
 * Fixed syntax highlighting for comments inside of boxes.
 * Fixed syntax and preview so that table rows cannot be indented.
-* Improved performance of synchronized scrolling.
+* Fixed issue where the preview would occasionally stop synchronizing.
 
 ## v0.3.0 (2019-05-12)
 

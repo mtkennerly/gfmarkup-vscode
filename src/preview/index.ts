@@ -1,28 +1,34 @@
 import { logTest } from '../etc';
 
-window.onload = handleLoad;
-
-logTest("preview: CREATED");
-
-function isVisible(element: Element) {
-    var rect = element.getBoundingClientRect();
-    var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
-    return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
-}
-
 declare var initialTopLine: number;
 declare var acquireVsCodeApi: any;
 const vscode = acquireVsCodeApi();
 let scrolling = false;
 let scrolls = 0;
-let needInitialScroll = true;
 let previousScrolledLine = 0;
 let shouldSyncEditorToPreview = true;
+let previewInitialized = false;
+
+window.onload = main;
+
+function main() {
+    logTest("preview: CREATED");
+    window.addEventListener('message', handleMessage);
+    window.addEventListener("scroll", handleScroll);
+    syncPreviewToEditor(initialTopLine, true);
+    monitorScroll();
+}
 
 function handleMessage(event: MessageEvent) {
     const type = event.data["type"];
+    logTest(`preview: got ${type} message from editor`);
     if (type === "sync") {
         syncPreviewToEditor(event.data["topLine"]);
+    } else if (type === "checkPreviewInitialized") {
+        if (!previewInitialized) {
+            logTest("preview: sending fallback previewInitialized");
+        }
+        vscode.postMessage({ "type": "previewInitialized" });
     }
 }
 
@@ -45,20 +51,15 @@ function monitorScroll() {
     setTimeout(monitorScroll, 50);
 }
 
-function handleLoad() {
-    syncPreviewToEditor(initialTopLine);
-    monitorScroll();
-}
-
-function syncPreviewToEditor(codeLine: number) {
+function syncPreviewToEditor(codeLine: number, initialScroll: boolean = false) {
     const element = window.document.querySelector(`[code-line="${codeLine}"]`);
     if (element !== null) {
         shouldSyncEditorToPreview = false;
         element.scrollIntoView();
-        if (needInitialScroll) {
+        if (initialScroll) {
             logTest(`preview: did initial scroll to ${codeLine}`);
-            needInitialScroll = false;
             vscode.postMessage({ "type": "previewInitialized" });
+            previewInitialized = true;
         }
     } else if (codeLine > 0) {
         syncPreviewToEditor(codeLine - 1);
@@ -93,5 +94,8 @@ function syncEditorToPreview() {
     }
 }
 
-window.addEventListener('message', handleMessage);
-window.addEventListener("scroll", handleScroll);
+function isVisible(element: Element) {
+    var rect = element.getBoundingClientRect();
+    var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+    return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+}
