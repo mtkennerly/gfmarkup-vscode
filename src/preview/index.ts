@@ -13,18 +13,17 @@ function isVisible(element: Element) {
 declare var initialTopLine: number;
 declare var acquireVsCodeApi: any;
 const vscode = acquireVsCodeApi();
+let scrolling = false;
+let scrolls = 0;
 let needInitialScroll = true;
 let previousScrolledLine = 0;
-let nextVscodeCallbackFired = true;
 let shouldSyncEditorToPreview = true;
-let scrolls = 0;
 
 function handleMessage(event: MessageEvent) {
     const type = event.data["type"];
     if (type === "sync") {
         syncPreviewToEditor(event.data["topLine"]);
     }
-    markNextVscodeCallbackFired();
 }
 
 function handleScroll(event: Event) {
@@ -34,22 +33,28 @@ function handleScroll(event: Event) {
         scrolls += 1;
         return;
     }
-    syncEditorToPreview();
+    scrolling = true;
+}
+
+function monitorScroll() {
+    if (scrolling && shouldSyncEditorToPreview) {
+        syncEditorToPreview();
+        scrolling = false;
+    }
+    shouldSyncEditorToPreview = true;
+    setTimeout(monitorScroll, 50);
 }
 
 function handleLoad() {
     syncPreviewToEditor(initialTopLine);
+    monitorScroll();
 }
 
 function syncPreviewToEditor(codeLine: number) {
-    if (!needInitialScroll && !nextVscodeCallbackFired) {
-        return;
-    }
     const element = window.document.querySelector(`[code-line="${codeLine}"]`);
     if (element !== null) {
         shouldSyncEditorToPreview = false;
         element.scrollIntoView();
-        setTimeout(() => { shouldSyncEditorToPreview = true; }, 100);
         if (needInitialScroll) {
             logTest(`preview: did initial scroll to ${codeLine}`);
             needInitialScroll = false;
@@ -61,36 +66,31 @@ function syncPreviewToEditor(codeLine: number) {
 }
 
 function syncEditorToPreview() {
-    if (!shouldSyncEditorToPreview) {
-        return;
-    }
     const elements = window.document.querySelectorAll("[code-line]");
     for (let i = 0; i < elements.length; i++) {
         let element = elements[i];
-        if (isVisible(element)) {
-            const codeLine = element.attributes.getNamedItem("code-line");
-            if (codeLine !== null) {
-                const tc = codeLine.textContent;
-                if (tc !== null) {
-                    const newLine = parseInt(tc);
-                    if (newLine === previousScrolledLine) {
-                        return;
-                    }
-                    logTest(`preview: syncing editor to line ${newLine}`);
-                    previousScrolledLine = newLine;
 
-                    nextVscodeCallbackFired = false;
-                    vscode.postMessage({ "type": "sync", "topLine": newLine });
-
-                    return;
-                }
-            }
+        if (!isVisible(element)) {
+            continue;
         }
-    }
-}
+        const codeLine = element.attributes.getNamedItem("code-line");
+        if (codeLine === null) {
+            continue;
+        }
+        const tc = codeLine.textContent;
+        if (tc === null) {
+            continue;
+        }
+        const newLine = parseInt(tc);
+        if (newLine === previousScrolledLine) {
+            return;
+        }
 
-function markNextVscodeCallbackFired() {
-    nextVscodeCallbackFired = true;
+        logTest(`preview: syncing editor to line ${newLine}`);
+        previousScrolledLine = newLine;
+        vscode.postMessage({ "type": "sync", "topLine": newLine });
+        return;
+    }
 }
 
 window.addEventListener('message', handleMessage);

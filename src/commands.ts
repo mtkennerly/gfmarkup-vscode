@@ -49,6 +49,7 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
     let topLine = editor.visibleRanges[0].start.line;
     let waitingForPreviewToSpawn = false;
     let needNewPreview = false;
+    let ignoreScrollEventFromSync = false;
 
     const previewedUri = editor.document.uri;
     const panel = vscode.window.createWebviewPanel(
@@ -70,6 +71,7 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
         if (type === "sync") {
             for (let visibleEditor of vscode.window.visibleTextEditors) {
                 if (visibleEditor.document.uri === previewedUri) {
+                    ignoreScrollEventFromSync = true;
                     visibleEditor.revealRange(
                         new vscode.Range(event["topLine"], 0, event["topLine"] + 1, 0),
                         vscode.TextEditorRevealType.AtTop,
@@ -112,6 +114,11 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
     });
     vscode.window.onDidChangeTextEditorVisibleRanges(event => {
         if (!state.includes(panel) || event.textEditor.document.uri !== previewedUri || event.visibleRanges.length === 0) {
+            return;
+        }
+        if (ignoreScrollEventFromSync) {
+            logTest("editor: changed VISIBLE, but ignoring because of sync");
+            ignoreScrollEventFromSync = false;
             return;
         }
         logTest("editor: changed VISIBLE");

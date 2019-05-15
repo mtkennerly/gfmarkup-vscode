@@ -4,6 +4,7 @@
 * Fixed syntax highlighting for items immediately after a table.
 * Fixed syntax highlighting for comments inside of boxes.
 * Fixed syntax and preview so that table rows cannot be indented.
+* Improved performance of synchronized scrolling.
 
 ## v0.3.0 (2019-05-12)
 
