@@ -1,4 +1,4 @@
-## Unreleased
+## v0.4.0 (2019-05-15)
 
 * Added support for nested boxes.
 * Enabled the find feature in the preview.
