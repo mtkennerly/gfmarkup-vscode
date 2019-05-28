@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as crypto from 'crypto';
-import { getMediaResource, getWorkspaceResource, getMarkupImage } from './config';
+import { getMediaResource, getMarkupImage } from './config';
 import { fromUndefined } from './etc';
 import escape = require("lodash.escape");
 

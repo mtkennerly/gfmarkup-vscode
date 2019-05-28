@@ -1,4 +1,4 @@
-## Unreleased
+## v0.5.0 (2019-05-28)
 
 * Added support for images and videos.
 * Added syntax highlighting for boxes and table cells.
