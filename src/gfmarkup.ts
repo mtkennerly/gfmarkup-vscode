@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as crypto from 'crypto';
-import { getMediaResource } from './config';
+import { getMediaResource, getWorkspaceResource, getMarkupImage } from './config';
 import { fromUndefined } from './etc';
 import escape = require("lodash.escape");
 
@@ -79,7 +79,7 @@ function handleTable(input: string): string {
     return `<table>${outLines.join("\n")}</table>\n`;
 }
 
-function renderMarkupBody(documentText: string): string {
+function renderMarkupBody(documentText: string, documentUri: vscode.Uri): string {
     return escape(documentText)
         .replace(/^;.*$/gm, "")
         .replace(/^%$/gm, "<hr>")
@@ -94,6 +94,12 @@ function renderMarkupBody(documentText: string): string {
         })
         .replace(/^=====([^=]+.*)=====$/gm, (match, p1, offset, string) => {
             return `<h5 id='${normalizeId(p1)}'><span>${p1}</span></h5>`;
+        })
+        .replace(/^\^(s|l)(l|r)?(\d+)\|(.+)$/gm, (match, p1, p2, p3, p4, offset, string) => {
+            return `<img src="${getMarkupImage(p3, documentUri)}" alt="${p4}" title="${p4}" class="image-${p1}${p2 || ""}">`;
+        })
+        .replace(/^\@(l|r)\|(.+)$/gm, (match, p1, p2, offset, string) => {
+            return `<iframe width="480" height="270" class="video-${p1}" src="https://www.youtube.com/embed/${p2}" frameborder="0"></iframe>`;
         })
         .replace(/'''''(.+?)'''''/gms, "<b><i>$1</i></b>")
         .replace(/'''(.+?)'''/gms, "<i>$1</i>")
@@ -195,7 +201,7 @@ function renderMarkupToc(documentText: string): string {
 
 export function renderMarkup(document: vscode.TextDocument, topLine: number): string {
     const toc = renderMarkupToc(document.getText());
-    const body = renderMarkupBody(document.getText());
+    const body = renderMarkupBody(document.getText(), document.uri);
     const scrollBeyond = fromUndefined(
         vscode.workspace.getConfiguration("editor", document.uri).get<boolean>("scrollBeyondLastLine"),
         true

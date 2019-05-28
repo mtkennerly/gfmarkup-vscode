@@ -40,6 +40,16 @@
           "type": "boolean",
           "default": true,
           "description": "Automatically scan all files for the markup flag"
+        },
+        "gfmarkup.imageDirectory": {
+          "type": "string",
+          "default": "${documentFolder}",
+          "description": "Where to find images used in markup"
+        },
+        "gfmarkup.imageFiles": {
+          "type": "string",
+          "default": "${documentName}.${id}",
+          "description": "Naming style of images used in markup"
         }
       }
     },

@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as gfm from './gfmarkup';
 import { logTest } from './etc';
+import { Config, getExtensionUri, getVscodeResourceUri } from './config';
 
 function precheckDocumentForGfm(document: vscode.TextDocument, silent: boolean = false): boolean {
     if (!gfm.isDocumentGfm(document)) {
@@ -63,7 +64,13 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
         state = state.filter(x => { return x !== panel; });
     });
 
-    panel.webview.options = { enableScripts: true };
+    const config = Config.load();
+    const roots: Array<vscode.Uri> = [
+        ...(vscode.workspace.workspaceFolders || []).map(x => x.uri),
+        getVscodeResourceUri(getExtensionUri()),
+        getVscodeResourceUri(config.getImageDirectory(previewedUri)),
+    ];
+    panel.webview.options = { enableScripts: true, localResourceRoots: roots };
     panel.webview.html = gfm.renderMarkup(editor.document, topLine);
     panel.webview.onDidReceiveMessage(event => {
         const type = event["type"];

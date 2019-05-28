@@ -58,3 +58,33 @@ th, td {
 .cell-r {
     text-align: right;
 }
+.image-s, .image-sl, .image-sr {
+    max-width: 300px;
+    max-height: 200px;
+}
+.image-s {
+    display: block;
+}
+.image-sl {
+    float: left;
+    margin-right: 2px;
+}
+.image-sr {
+    float: right;
+    margin-left: 2px;
+}
+.image-l, .image-ll, .image-lr {
+    max-width: 750px;
+    max-height: 500px;
+}
+.image-ll {
+    float: left;
+    margin-right: 2px;
+}
+.image-lr {
+    float: right;
+    margin-left: 2px;
+}
+.video-l, .video-r {
+    display: block;
+}

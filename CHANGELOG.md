@@ -1,3 +1,8 @@
+## Unreleased
+
+* Added support for images and videos.
+* Added syntax highlighting for boxes and table cells.
+
 ## v0.4.0 (2019-05-15)
 
 * Added support for nested boxes.

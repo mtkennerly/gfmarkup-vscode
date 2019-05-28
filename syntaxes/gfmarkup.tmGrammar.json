@@ -6,6 +6,9 @@
     },
     {
       "include": "#inline"
+    },
+    {
+      "include": "#media"
     }
   ],
   "repository": {
@@ -71,6 +74,18 @@
         }
       ]
     },
+    "media": {
+      "patterns": [
+        {
+          "match": "^\\^(s|l)(l|r)?(\\d+)\\|(.+)$",
+          "name": "meta.image.gfmarkup"
+        },
+        {
+          "match": "^\\@(l|r)\\|(.+)$",
+          "name": "meta.video.gfmarkup"
+        }
+      ]
+    },
     "header": {
       "patterns": [
         {
@@ -94,10 +109,13 @@
     "list": {
       "patterns": [
         {
-          "match": "^\\*+([^*]+.*)$",
+          "match": "^(\\*+)([^*]+.*)$",
           "name": "list.unnumbered.gfmarkup",
           "captures": {
             "1": {
+              "name": "punctuation.definition.list.begin.gfmarkup"
+            },
+            "2": {
               "patterns": [
                 {
                   "include": "#inline"
@@ -107,10 +125,13 @@
           }
         },
         {
-          "match": "^#+([^#]+.*)$",
+          "match": "^(#+)([^#]+.*)$",
           "name": "list.numbered.gfmarkup",
           "captures": {
             "1": {
+              "name": "punctuation.definition.list.begin.gfmarkup"
+            },
+            "2": {
               "patterns": [
                 {
                   "include": "#inline"
@@ -120,10 +141,13 @@
           }
         },
         {
-          "match": "^:+([^:]+.*)$",
+          "match": "^(:+)([^:]+.*)$",
           "name": "list.unnumbered.gfmarkup",
           "captures": {
             "1": {
+              "name": "punctuation.definition.list.begin.gfmarkup"
+            },
+            "2": {
               "patterns": [
                 {
                   "include": "#inline"
@@ -269,37 +293,18 @@
       "name": "markup.separator.gfmarkup"
     },
     "box": {
-      "patterns": [
-        {
-          "include": "#named-box"
-        },
-        {
-          "include": "#nameless-box"
-        }
-      ]
-    },
-    "named-box": {
       "begin": "^=--.+--=$",
-      "end": "^=-=$",
-      "name": "markup.quote.gfmarkup",
-      "patterns": [
-        {
-          "include": "#inline"
-        },
-        {
-          "include": "#comment"
-        },
-        {
-          "include": "#box"
-        },
-        {
-          "include": "#table"
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.block.gfmarkup"
         }
-      ]
-    },
-    "nameless-box": {
-      "begin": "^=-----=$",
+      },
       "end": "^=-=$",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.block.gfmarkup"
+        }
+      },
       "name": "markup.quote.gfmarkup",
       "patterns": [
         {
@@ -313,14 +318,26 @@
         },
         {
           "include": "#table"
+        },
+        {
+          "include": "#media"
         }
       ]
     },
     "table": {
-      "begin": "^\\|",
+      "begin": "^\\|(\\*|l|r|c)?((-|\\+)(\\d|[a-f]))?",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.table.separator.gfmarkup"
+        }
+      },
       "end": "^(?=[^|])",
       "name": "markup.table.gfmarkup",
       "patterns": [
+        {
+          "name": "punctuation.definition.table.separator.gfmarkup",
+          "match": "\\|(\\*|l|r|c)?((-|\\+)(\\d|[a-f]))?"
+        },
         {
           "include": "#inline"
         }
