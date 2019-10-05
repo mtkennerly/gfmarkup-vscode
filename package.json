@@ -10,7 +10,7 @@
     "url": "https://github.com/mtkennerly/gfmarkup-vscode"
   },
   "engines": {
-    "vscode": "^1.33.0"
+    "vscode": "^1.38.0"
   },
   "categories": [
     "Other"
@@ -81,18 +81,22 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "npm run compile && node ./node_modules/vscode/bin/test",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js",
     "webpack": "webpack --mode development",
     "webpack-dev": "webpack --mode development --watch"
   },
   "devDependencies": {
+    "@types/glob": "^7.1.1",
     "@types/lodash.escape": "^4.0.6",
     "@types/mocha": "^2.2.42",
     "@types/node": "^10.12.21",
+    "@types/vscode": "^1.38.0",
+    "glob": "^7.1.4",
     "ts-loader": "^5.3.3",
     "tslint": "^5.12.1",
     "typescript": "^3.3.1",
-    "vscode": "^1.1.28",
+    "vscode-test": "^1.2.0",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.0"
   },

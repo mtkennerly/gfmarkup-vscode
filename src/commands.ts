@@ -43,7 +43,7 @@ export function scanForGfm() {
     });
 }
 
-export function openPreview(state: Array<vscode.WebviewPanel>) {
+export function openPreview(state: Array<vscode.WebviewPanel>, extensionPath: string) {
     const editor = vscode.window.activeTextEditor;
     const okay = precheckEditorForGfm(editor);
     if (!okay || editor === undefined) { return; }
@@ -67,11 +67,11 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
     const config = Config.load();
     const roots: Array<vscode.Uri> = [
         ...(vscode.workspace.workspaceFolders || []).map(x => x.uri),
-        getVscodeResourceUri(getExtensionUri()),
+        getVscodeResourceUri(extensionPath),
         getVscodeResourceUri(config.getImageDirectory(previewedUri)),
     ];
     panel.webview.options = { enableScripts: true, localResourceRoots: roots };
-    panel.webview.html = gfm.renderMarkup(editor.document, topLine);
+    panel.webview.html = gfm.renderMarkup(editor.document, panel.webview, topLine);
     panel.webview.onDidReceiveMessage(event => {
         const type = event["type"];
         logTest(`editor: got ${type} message from preview`);
@@ -93,7 +93,7 @@ export function openPreview(state: Array<vscode.WebviewPanel>) {
     function updatePreview(document: vscode.TextDocument) {
         logTest("editor: updating preview");
         waitingForPreviewToSpawn = true;
-        panel.webview.html = gfm.renderMarkup(document, topLine);
+        panel.webview.html = gfm.renderMarkup(document, panel.webview, topLine);
     }
 
     function monitorChanges() {

@@ -144,7 +144,7 @@ export function getMediaFile(resource: string): vscode.Uri {
 }
 
 export function getMediaResource(resource: string): string {
-    return `vscode-resource://${getMediaFile(resource).toString()}`;
+    return getVscodeResourceUri(getMediaFile(resource)).toString();
 }
 
 export function getVscodeResourceUri(resource: vscode.Uri | string): vscode.Uri {

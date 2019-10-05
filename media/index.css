@@ -87,4 +87,10 @@ th, td {
 }
 .video-l, .video-r {
     display: block;
+    width: 480px;
+    height: 270px;
+    border-style: dashed;
+    border-width: 1px;
+    border-color: #c586c0ff;
+    text-align: center;
 }

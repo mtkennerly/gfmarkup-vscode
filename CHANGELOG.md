@@ -1,3 +1,18 @@
+## Unreleased
+
+* Updated extension for VSCode 1.38.1. This resolved several issues
+  that occurred when using newer VSCode versions:
+  * Fixed preview styling and synchronized scrolling. This was broken because
+    of changes in VSCode's security requirements for webviews to load local
+    files (e.g., CSS and JavaScript).
+  * Fixed "unrecognized format" error with preview video embedding. VSCode did
+    not officially support video in webviews, and although it happened to work
+    when this extension was initially released, it is no longer possible
+    (https://github.com/microsoft/vscode/issues/82012).
+    Instead of true video embedding, the preview now includes a plain thumbnail
+    of the video, which can be clicked to open the video host in your browser.
+* Fixed bold and italic display in the preview.
+
 ## v0.5.0 (2019-05-28)
 
 * Added support for images and videos.

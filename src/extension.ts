@@ -38,7 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     let previewState: Array<vscode.WebviewPanel> = [];
     context.subscriptions.push(vscode.commands.registerCommand('gfmarkup.openPreview', () => {
-        openPreview(previewState);
+        openPreview(previewState, context.extensionPath);
     }));
 
     const diagnostics = vscode.languages.createDiagnosticCollection("gfmarkup");
@@ -54,7 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
         diagnoseIssues(event.document, diagnostics);
     }));
 
-    vscode.languages.registerFoldingRangeProvider("gfmarkup", new GfmFoldingRangeProvider());
+    vscode.languages.registerFoldingRangeProvider({ scheme: "untitled", language: "gfmarkup" }, new GfmFoldingRangeProvider());
 }
 
 export function deactivate() { }

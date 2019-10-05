@@ -99,11 +99,11 @@ function renderMarkupBody(documentText: string, documentUri: vscode.Uri): string
             return `<img src="${getMarkupImage(p3, documentUri)}" alt="${p4}" title="${p4}" class="image-${p1}${p2 || ""}">`;
         })
         .replace(/^\@(l|r)\|(.+)$/gm, (match, p1, p2, offset, string) => {
-            return `<iframe width="480" height="270" class="video-${p1}" src="https://www.youtube.com/embed/${p2}" frameborder="0"></iframe>`;
+            return `<div class="video-${p1}"><a href="https://www.youtube.com/watch?v=${p2}"><img src="https://img.youtube.com/vi/${p2}/hqdefault.jpg"></a></div>`;
         })
-        .replace(/'''''(.+?)'''''/gms, "<b><i>$1</i></b>")
-        .replace(/'''(.+?)'''/gms, "<i>$1</i>")
-        .replace(/''(.+?)''/gms, "<b>$1</b>")
+        .replace(/&#39;&#39;&#39;&#39;&#39;(.+?)&#39;&#39;&#39;&#39;&#39;/gms, "<b><i>$1</i></b>")
+        .replace(/&#39;&#39;&#39;(.+?)&#39;&#39;&#39;/gms, "<i>$1</i>")
+        .replace(/&#39;&#39;(.+?)&#39;&#39;/gms, "<b>$1</b>")
         .replace(/\-\-u\-\-(.+?)\-\-u\-\-/gms, "<u>$1</u>")
         .replace(/-s-(.+?)-s-/gm, "<span class='spoiler'>$1</span>")
         .replace(/\[\[(.+?)\|(.+?)\]\]/gm, (match, p1, p2, offset, string) => {
@@ -199,7 +199,7 @@ function renderMarkupToc(documentText: string): string {
     return `<nav><p>Table of contents</p><ol>${out}</ol></nav>`;
 }
 
-export function renderMarkup(document: vscode.TextDocument, topLine: number): string {
+export function renderMarkup(document: vscode.TextDocument, webview: vscode.Webview, topLine: number): string {
     const toc = renderMarkupToc(document.getText());
     const body = renderMarkupBody(document.getText(), document.uri);
     const scrollBeyond = fromUndefined(
@@ -212,6 +212,10 @@ export function renderMarkup(document: vscode.TextDocument, topLine: number): st
             <script>const initialTopLine = ${topLine};</script>
             <script async src="${getMediaResource("index.js")}"></script>
             <link rel="stylesheet" type="text/css" href="${getMediaResource("index.css")}" />
+            <meta
+                http-equiv="Content-Security-Policy"
+                content="default-src 'none'; img-src ${webview.cspSource} https: file: vscode-resource:; script-src ${webview.cspSource} file: vscode-resource:; style-src ${webview.cspSource} file: vscode-resource: 'unsafe-inline'; frame-src https://www.youtube.com;"
+            />
         </head>
         <html>
             <body class="${scrollBeyond ? "scrollBeyond" : ""}">${toc}\n${body}</body>
