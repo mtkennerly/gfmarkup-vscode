@@ -54,7 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
         diagnoseIssues(event.document, diagnostics);
     }));
 
-    vscode.languages.registerFoldingRangeProvider({ scheme: "untitled", language: "gfmarkup" }, new GfmFoldingRangeProvider());
+    vscode.languages.registerFoldingRangeProvider({ scheme: "*", language: "gfmarkup" }, new GfmFoldingRangeProvider());
 }
 
 export function deactivate() { }

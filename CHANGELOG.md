@@ -1,4 +1,4 @@
-## Unreleased
+## v0.5.1 (2019-10-05)
 
 * Updated extension for VSCode 1.38.1. This resolved several issues
   that occurred when using newer VSCode versions:
