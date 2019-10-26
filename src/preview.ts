@@ -1,4 +1,4 @@
-import { logTest } from "../etc";
+import { logTest } from "./etc";
 
 declare var initialTopLine: number;
 declare var acquireVsCodeApi: any;

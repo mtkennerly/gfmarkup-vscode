@@ -6,7 +6,7 @@ path = require("path");
 
 module.exports = {
     entry: {
-        index: './src/preview/index.ts'
+        index: './src/preview.ts'
     },
     module: {
         rules: [

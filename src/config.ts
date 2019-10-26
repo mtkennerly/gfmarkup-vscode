@@ -132,15 +132,15 @@ export class Config {
 }
 
 export function getExtensionUri(): vscode.Uri {
-    return vscode.Uri.file(path.join(__dirname, ".."));
+    return vscode.Uri.file(path.join(__dirname, "..", ".."));
 }
 
 export function getMediaDir(): vscode.Uri {
-    return vscode.Uri.file(path.join(__dirname, "..", "media"));
+    return vscode.Uri.file(path.join(__dirname, "..", "..", "media"));
 }
 
 export function getMediaFile(resource: string): vscode.Uri {
-    return vscode.Uri.file(path.join(__dirname, "..", "media", resource));
+    return vscode.Uri.file(path.join(__dirname, "..", "..", "media", resource));
 }
 
 export function getMediaResource(resource: string): string {
