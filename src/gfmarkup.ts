@@ -53,24 +53,25 @@ function handleTable(input: string): string {
         }
         let outLine = "<tr>";
         for (let cell of line.split("|").slice(1, -1)) {
-            const mods = cell.match(/^([*lcr])?(([+-])([0-9a-fA-F]))?(.*?)$/);
+            const mods = cell.match(/^(\*)?([lcr])?(([+-])([0-9a-fA-F]))?(.*?)$/);
             if (mods === null) {
                 return input;
             }
-            const alignment = mods[1] || "l";
-            const spanType = mods[3];
-            let spanCount = mods[4] || "1";
-            const content = mods[5];
-            let container = "td";
-            if (alignment === "*") {
-                container = "th";
-            }
+
+            const isHeader = mods[1] === "*";
+            const alignment = mods[2] || "l";
+            const spanType = mods[4];
+            let spanCount = mods[5] || "1";
+            const content = mods[6];
+
+            const container = isHeader ? "th" : "td";
             let span = "";
             if (spanType === "+") {
                 span = `colspan='${parseInt(spanCount, 16)}'`;
             } else if (spanType === "-") {
                 span = `rowspan='${parseInt(spanCount, 16)}'`;
             }
+
             outLine += `<${container} class='cell-${alignment}' ${span}>${content.trim()}</${container}>`;
         }
         outLine += "</tr>";

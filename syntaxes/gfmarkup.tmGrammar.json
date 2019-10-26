@@ -336,7 +336,7 @@
       "patterns": [
         {
           "name": "punctuation.definition.table.separator.gfmarkup",
-          "match": "\\|(\\*|l|r|c)?((-|\\+)(\\d|[a-f]))?"
+          "match": "\\|(\\*)?(l|r|c)?((-|\\+)([0-9a-fA-F]))?"
         },
         {
           "include": "#inline"

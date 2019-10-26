@@ -68,7 +68,7 @@ a ''nameless'' box.
 =-=
 After.
 
-|*This   |*is |*the     |*table |*header |
+|*This   |*c+2 is the   |*table |*header |
 |-3 This | is |r ''a''  | table | row    |
 |          is | another | table | row    |
 |          is |c+2 a centered   | row    |

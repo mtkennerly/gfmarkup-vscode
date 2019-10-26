@@ -1,3 +1,7 @@
+## Unreleased
+
+* Fixed parsing/preview of table header cells with an alignment.
+
 ## v0.5.1 (2019-10-05)
 
 * Updated extension for VSCode 1.38.1. This resolved several issues
