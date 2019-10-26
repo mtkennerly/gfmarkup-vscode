@@ -325,7 +325,7 @@
       ]
     },
     "table": {
-      "begin": "^\\|(\\*|l|r|c)?((-|\\+)(\\d|[a-f]))?",
+      "begin": "^\\|(\\*)?(l|r|c)?((-|\\+)(\\d|[a-f]))?",
       "beginCaptures": {
         "0": {
           "name": "punctuation.definition.table.separator.gfmarkup"

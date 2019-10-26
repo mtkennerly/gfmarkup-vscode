@@ -29,6 +29,15 @@ table, th, td {
     border-style: solid;
     border-color: white;
 }
+.vscode-dark th {
+    background-color: #454545;
+}
+.vscode-light th {
+    background-color: #CCCCCC;
+}
+.vscode-high-contrast th {
+    background-color: #F38518;
+}
 .vscode-light table, .vscode-light th, .vscode-light td {
     border-color: black;
 }

@@ -1,3 +1,8 @@
+## Unreleased
+
+* Added background color to table header cells to help distinguish them from
+  regular cells that have bold text.
+
 ## v0.5.2 (2019-10-26)
 
 * Fixed parsing/preview of table header cells with an alignment.
