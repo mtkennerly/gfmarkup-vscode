@@ -1,4 +1,4 @@
-## Unreleased
+## v0.5.2 (2019-10-26)
 
 * Fixed parsing/preview of table header cells with an alignment.
 
