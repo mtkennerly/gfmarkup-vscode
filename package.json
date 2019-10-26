@@ -79,6 +79,7 @@
   "scripts": {
     "vscode:prepublish": "npm run compile && webpack --mode production",
     "compile": "tsc -p ./",
+    "lint": "npx tslint --fix --project .",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile",
     "test": "node ./out/test/runTest.js",

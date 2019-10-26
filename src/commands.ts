@@ -1,8 +1,8 @@
-import * as vscode from 'vscode';
-import * as path from 'path';
-import * as gfm from './gfmarkup';
-import { logTest } from './etc';
-import { Config, getExtensionUri, getVscodeResourceUri } from './config';
+import * as path from "path";
+import * as vscode from "vscode";
+import { Config, getExtensionUri, getVscodeResourceUri } from "./config";
+import { logTest } from "./etc";
+import * as gfm from "./gfmarkup";
 
 function precheckDocumentForGfm(document: vscode.TextDocument, silent: boolean = false): boolean {
     if (!gfm.isDocumentGfm(document)) {
@@ -24,7 +24,7 @@ function precheckEditorForGfm(editor: vscode.TextEditor | undefined, silent: boo
     return precheckDocumentForGfm(editor.document, silent);
 }
 
-export function scanForGfm() {
+export function scanForGfm(): void {
     for (const editor of vscode.window.visibleTextEditors) {
         const okay = precheckEditorForGfm(editor, true);
         if (!okay) { continue; }
@@ -43,7 +43,7 @@ export function scanForGfm() {
     });
 }
 
-export function openPreview(state: Array<vscode.WebviewPanel>, extensionPath: string) {
+export function openPreview(state: Array<vscode.WebviewPanel>, extensionPath: string): void {
     const editor = vscode.window.activeTextEditor;
     const okay = precheckEditorForGfm(editor);
     if (!okay || editor === undefined) { return; }
@@ -54,7 +54,7 @@ export function openPreview(state: Array<vscode.WebviewPanel>, extensionPath: st
 
     const previewedUri = editor.document.uri;
     const panel = vscode.window.createWebviewPanel(
-        'gfmarkupPreview',
+        "gfmarkupPreview",
         `Preview of ${path.parse(editor.document.fileName).base}`,
         vscode.ViewColumn.Beside,
         { enableFindWidget: true, retainContextWhenHidden: true }
@@ -90,13 +90,13 @@ export function openPreview(state: Array<vscode.WebviewPanel>, extensionPath: st
         }
     });
 
-    function updatePreview(document: vscode.TextDocument) {
+    function updatePreview(document: vscode.TextDocument): void {
         logTest("editor: updating preview");
         waitingForPreviewToSpawn = true;
         panel.webview.html = gfm.renderMarkup(document, panel.webview, topLine);
     }
 
-    function monitorChanges() {
+    function monitorChanges(): void {
         if (waitingForPreviewToSpawn) {
             // Sometimes the preview never actually sends the initialized
             // alert, but it still responds to messages, so we can ask it

@@ -1,6 +1,6 @@
 const testMode = false;
 
-export function fromUndefined<A>(value: A | undefined, fallback: A): A {
+export function fromUndefined<T>(value: T | undefined, fallback: T): T {
     if (value === undefined) {
         return fallback;
     } else {
@@ -8,7 +8,7 @@ export function fromUndefined<A>(value: A | undefined, fallback: A): A {
     }
 }
 
-export function logTest(message: string) {
+export function logTest(message: string): void {
     if (testMode) {
         console.log(message);
     }

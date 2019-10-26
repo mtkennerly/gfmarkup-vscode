@@ -1,8 +1,8 @@
-import * as vscode from 'vscode';
-import * as crypto from 'crypto';
-import { getMediaResource, getMarkupImage } from './config';
-import { fromUndefined } from './etc';
+import * as crypto from "crypto";
 import escape = require("lodash.escape");
+import * as vscode from "vscode";
+import { getMarkupImage, getMediaResource } from "./config";
+import { fromUndefined } from "./etc";
 
 export const LANG_ID = "gfmarkup";
 export const SHEBANG = ";format:gf-markup";
@@ -84,22 +84,22 @@ function renderMarkupBody(documentText: string, documentUri: vscode.Uri): string
     return escape(documentText)
         .replace(/^;.*$/gm, "")
         .replace(/^%$/gm, "<hr>")
-        .replace(/^==([^=]+.*)==$/gm, (match, p1, offset, string) => {
+        .replace(/^==([^=]+.*)==$/gm, (match, p1) => {
             return `<h2 id='${normalizeId(p1)}'>${p1}</h2>`;
         })
-        .replace(/^===([^=]+.*)===$/gm, (match, p1, offset, string) => {
+        .replace(/^===([^=]+.*)===$/gm, (match, p1) => {
             return `<h3 id='${normalizeId(p1)}'>${p1}</h3>`;
         })
-        .replace(/^====([^=]+.*)====$/gm, (match, p1, offset, string) => {
+        .replace(/^====([^=]+.*)====$/gm, (match, p1) => {
             return `<h4 id='${normalizeId(p1)}'><span>${p1}</span></h4>`;
         })
-        .replace(/^=====([^=]+.*)=====$/gm, (match, p1, offset, string) => {
+        .replace(/^=====([^=]+.*)=====$/gm, (match, p1) => {
             return `<h5 id='${normalizeId(p1)}'><span>${p1}</span></h5>`;
         })
-        .replace(/^\^(s|l)(l|r)?(\d+)\|(.+)$/gm, (match, p1, p2, p3, p4, offset, string) => {
+        .replace(/^\^(s|l)(l|r)?(\d+)\|(.+)$/gm, (match, p1, p2, p3, p4) => {
             return `<img src="${getMarkupImage(p3, documentUri)}" alt="${p4}" title="${p4}" class="image-${p1}${p2 || ""}">`;
         })
-        .replace(/^\@(l|r)\|(.+)$/gm, (match, p1, p2, offset, string) => {
+        .replace(/^\@(l|r)\|(.+)$/gm, (match, p1, p2) => {
             return `<div class="video-${p1}"><a href="https://www.youtube.com/watch?v=${p2}"><img src="https://img.youtube.com/vi/${p2}/hqdefault.jpg"></a></div>`;
         })
         .replace(/&#39;&#39;&#39;&#39;&#39;(.+?)&#39;&#39;&#39;&#39;&#39;/gms, "<b><i>$1</i></b>")
@@ -107,22 +107,22 @@ function renderMarkupBody(documentText: string, documentUri: vscode.Uri): string
         .replace(/&#39;&#39;(.+?)&#39;&#39;/gms, "<b>$1</b>")
         .replace(/\-\-u\-\-(.+?)\-\-u\-\-/gms, "<u>$1</u>")
         .replace(/-s-(.+?)-s-/gm, "<span class='spoiler'>$1</span>")
-        .replace(/\[\[(.+?)\|(.+?)\]\]/gm, (match, p1, p2, offset, string) => {
+        .replace(/\[\[(.+?)\|(.+?)\]\]/gm, (match, p1, p2) => {
             return `<a href='#${normalizeId(p1)}'>${p2}</a>`;
         })
-        .replace(/\[\[(.+?)\]\]/gm, (match, p1, offset, string) => {
+        .replace(/\[\[(.+?)\]\]/gm, (match, p1) => {
             return `<a href='#${normalizeId(p1)}'>${p1}</a>`;
         })
-        .replace(/^\*.+?\r?\n(?=[^*]|$)/gms, (match, offset, string) => {
+        .replace(/^\*.+?\r?\n(?=[^*]|$)/gms, match => {
             return handleList(match, "\\*", "ul", "li");
         })
-        .replace(/^\#.+?\r?\n(?=[^#]|$)/gms, (match, offset, string) => {
+        .replace(/^\#.+?\r?\n(?=[^#]|$)/gms, match => {
             return handleList(match, "\\#", "ol", "li");
         })
-        .replace(/^\:.+?\r?\n(?=[^:]|$)/gms, (match, offset, string) => {
+        .replace(/^\:.+?\r?\n(?=[^:]|$)/gms, match => {
             return handleList(match, "\\:", "dl", "dd");
         })
-        .replace(/^\|.+?\r?\n(?=[^|]|$)/gms, (match, offset, string) => {
+        .replace(/^\|.+?\r?\n(?=[^|]|$)/gms, match => {
             return handleTable(match);
         })
         .replace(/^=-----=$/gm, "<div class='box'><span></span>")
@@ -131,7 +131,7 @@ function renderMarkupBody(documentText: string, documentUri: vscode.Uri): string
         .split(/\r?\n/).map((x, i) => {
             const firstTag = /<([^ >/]+)(.*)/;
             // Add the source line to the first tag on this line.
-            return x.replace(firstTag, (match, p1, p2, offset, string) => {
+            return x.replace(firstTag, (match, p1, p2) => {
                 if (["ul", "ol", "dl", "div", "table"].includes(p1)) {
                     return `<${p1} ${p2.replace(firstTag, `<$1 code-line="${i}" $2`)}`;
                 } else {
@@ -229,5 +229,5 @@ export function isDocumentGfm(document: vscode.TextDocument): boolean {
         document.getText(
             new vscode.Range(new vscode.Position(0, 0), new vscode.Position(0, 17))
         ) === SHEBANG
-    )
+    );
 }

@@ -1,7 +1,7 @@
-import * as vscode from 'vscode';
-import { LANG_ID } from './gfmarkup';
+import * as vscode from "vscode";
+import { LANG_ID } from "./gfmarkup";
 
-export function diagnoseIssues(document: vscode.TextDocument, diagnostics: vscode.DiagnosticCollection) {
+export function diagnoseIssues(document: vscode.TextDocument, diagnostics: vscode.DiagnosticCollection): void {
     if (document.languageId !== LANG_ID) {
         return;
     }

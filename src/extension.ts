@@ -1,9 +1,9 @@
-import * as vscode from 'vscode';
-import { scanForGfm, openPreview } from './commands';
-import { Config } from './config';
-import { diagnoseIssues, GfmFoldingRangeProvider } from './editor';
+import * as vscode from "vscode";
+import { openPreview, scanForGfm } from "./commands";
+import { Config } from "./config";
+import { diagnoseIssues, GfmFoldingRangeProvider } from "./editor";
 
-function setConfig() {
+function setConfig(): void {
     const config = vscode.workspace.getConfiguration();
     let existing: Array<Object> = [];
     const globalRules = config.inspect<Array<Object>>("editor.tokenColorCustomizations.textMateRules");
@@ -21,7 +21,7 @@ function setConfig() {
     );
 }
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: vscode.ExtensionContext): void {
     setConfig();
     const config = Config.load();
 
@@ -29,7 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
         scanForGfm();
     }
 
-    context.subscriptions.push(vscode.commands.registerCommand('gfmarkup.scanForGfm', () => {
+    context.subscriptions.push(vscode.commands.registerCommand("gfmarkup.scanForGfm", () => {
         if (config.autoScan) {
             return;
         }
@@ -37,7 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
     }));
 
     let previewState: Array<vscode.WebviewPanel> = [];
-    context.subscriptions.push(vscode.commands.registerCommand('gfmarkup.openPreview', () => {
+    context.subscriptions.push(vscode.commands.registerCommand("gfmarkup.openPreview", () => {
         openPreview(previewState, context.extensionPath);
     }));
 
@@ -57,4 +57,4 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.languages.registerFoldingRangeProvider({ scheme: "*", language: "gfmarkup" }, new GfmFoldingRangeProvider());
 }
 
-export function deactivate() { }
+export function deactivate(): void { }
