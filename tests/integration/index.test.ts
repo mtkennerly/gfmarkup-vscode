@@ -5,10 +5,10 @@ import * as vscode from "vscode";
 import * as myExtension from "../../src/extension";
 
 describe("Extension", () => {
-	vscode.window.showInformationMessage("Start all tests.");
+    vscode.window.showInformationMessage("Start all tests.");
 
-	it("works with normalized layout", () => {
-		expect([1, 2, 3].indexOf(5)).toBe(-1);
-		expect([1, 2, 3].indexOf(1)).toBe(0);
-	});
+    it("works with normalized layout", () => {
+        expect([1, 2, 3].indexOf(5)).toBe(-1);
+        expect([1, 2, 3].indexOf(1)).toBe(0);
+    });
 });
