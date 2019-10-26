@@ -5,9 +5,13 @@ export function diagnoseIssues(document: vscode.TextDocument, diagnostics: vscod
     if (document.languageId !== LANG_ID) {
         return;
     }
-    let problems: vscode.Diagnostic[] = [];
+    const problems = findDiagnosticIssues(document.getText());
+    diagnostics.set(document.uri, problems);
+}
+
+export function findDiagnosticIssues(documentText: string): Array<vscode.Diagnostic> {
+    let problems: Array<vscode.Diagnostic> = [];
     let headers: { [key: string]: Array<vscode.Range> } = {};
-    const documentText = document.getText();
 
     for (const [lineIndex, line] of documentText.split(/\r?\n/).entries()) {
         let offset = 0;
@@ -48,7 +52,7 @@ export function diagnoseIssues(document: vscode.TextDocument, diagnostics: vscod
         }
     }
 
-    diagnostics.set(document.uri, problems);
+    return problems;
 }
 
 export class GfmFoldingRangeProvider implements vscode.FoldingRangeProvider {
@@ -56,40 +60,43 @@ export class GfmFoldingRangeProvider implements vscode.FoldingRangeProvider {
         document: vscode.TextDocument,
         context: vscode.FoldingContext,
         token: vscode.CancellationToken
-    ): vscode.ProviderResult<vscode.FoldingRange[]> {
-        const documentText = document.getText();
-        const ranges = [];
-        const headers: { [key: string]: number | null } = {
-            2: null,
-            3: null,
-            4: null,
-            5: null,
-        };
-
-        for (const [lineIndex, line] of documentText.split(/\r?\n/).entries()) {
-            const hCheck = line.match(/^(={2,5})([^=]+.*)={2,5}$/);
-            if (hCheck) {
-                const level = hCheck[1].length;
-                const lastSibling = headers[level.toString()];
-                if (lastSibling !== null) {
-                    ranges.push(new vscode.FoldingRange(lastSibling, lineIndex - 1));
-                }
-                for (const [key, value] of Object.entries(headers)) {
-                    if (level < parseInt(key) && value !== null) {
-                        ranges.push(new vscode.FoldingRange(value, lineIndex - 1));
-                        headers[key] = null;
-                    }
-                }
-                headers[level.toString()] = lineIndex;
-            }
-        }
-
-        for (const value of Object.values(headers)) {
-            if (value !== null) {
-                ranges.push(new vscode.FoldingRange(value, document.lineCount - 1));
-            }
-        }
-
-        return ranges;
+    ): vscode.ProviderResult<Array<vscode.FoldingRange>> {
+        return findFoldingRanges(document.getText(), document.lineCount);
     }
+}
+
+export function findFoldingRanges(documentText: string, documentLineCount: number): Array<vscode.FoldingRange> {
+    const ranges = [];
+    const headers: { [key: string]: number | null } = {
+        2: null,
+        3: null,
+        4: null,
+        5: null,
+    };
+
+    for (const [lineIndex, line] of documentText.split(/\r?\n/).entries()) {
+        const hCheck = line.match(/^(={2,5})([^=]+.*)={2,5}$/);
+        if (hCheck) {
+            const level = hCheck[1].length;
+            const lastSibling = headers[level.toString()];
+            if (lastSibling !== null) {
+                ranges.push(new vscode.FoldingRange(lastSibling, lineIndex - 1));
+            }
+            for (const [key, value] of Object.entries(headers)) {
+                if (level < parseInt(key) && value !== null) {
+                    ranges.push(new vscode.FoldingRange(value, lineIndex - 1));
+                    headers[key] = null;
+                }
+            }
+            headers[level.toString()] = lineIndex;
+        }
+    }
+
+    for (const value of Object.values(headers)) {
+        if (value !== null) {
+            ranges.push(new vscode.FoldingRange(value, documentLineCount - 1));
+        }
+    }
+
+    return ranges;
 }

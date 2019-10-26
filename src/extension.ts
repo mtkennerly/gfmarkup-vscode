@@ -5,8 +5,8 @@ import { diagnoseIssues, GfmFoldingRangeProvider } from "./editor";
 
 function setConfig(): void {
     const config = vscode.workspace.getConfiguration();
-    let existing: Array<Object> = [];
-    const globalRules = config.inspect<Array<Object>>("editor.tokenColorCustomizations.textMateRules");
+    let existing: Array<object> = [];
+    const globalRules = config.inspect<Array<object>>("editor.tokenColorCustomizations.textMateRules");
     if (globalRules !== undefined) {
         existing = globalRules.globalValue || [];
     }

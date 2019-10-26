@@ -80,7 +80,7 @@ function handleTable(input: string): string {
     return `<table>${outLines.join("\n")}</table>\n`;
 }
 
-function renderMarkupBody(documentText: string, documentUri: vscode.Uri): string {
+export function renderMarkupBody(documentText: string, documentUri: vscode.Uri): string {
     return escape(documentText)
         .replace(/^;.*$/gm, "")
         .replace(/^%$/gm, "<hr>")
@@ -133,9 +133,9 @@ function renderMarkupBody(documentText: string, documentUri: vscode.Uri): string
             // Add the source line to the first tag on this line.
             return x.replace(firstTag, (match, p1, p2) => {
                 if (["ul", "ol", "dl", "div", "table"].includes(p1)) {
-                    return `<${p1} ${p2.replace(firstTag, `<$1 code-line="${i}" $2`)}`;
+                    return `<${p1}${p2.replace(firstTag, `<$1 code-line="${i}"$2`)}`;
                 } else {
-                    return `<${p1} code-line="${i}" ${p2}`;
+                    return `<${p1} code-line="${i}"${p2}`;
                 }
             });
         }).join("\n")
@@ -153,7 +153,7 @@ function renderMarkupBody(documentText: string, documentUri: vscode.Uri): string
         .replace(/<\/(table|ul|ol|dl)>\r?\n?<br><br>/gm, "</$1><br>");
 }
 
-function renderMarkupToc(documentText: string): string {
+export function renderMarkupToc(documentText: string): string {
     const headers: Array<[string, Array<string>]> = [];
     let h2 = null;
     let h3s = [];
@@ -186,7 +186,11 @@ function renderMarkupToc(documentText: string): string {
     let out = "";
     for (const [h2, h3s] of headers) {
         const escapedH2 = escape(h2);
-        out += `<li><a href="#${normalizeId(escapedH2)}">${escapedH2}</a></li>`;
+        if (escapedH2 !== "") {
+            out += `<li><a href="#${normalizeId(escapedH2)}">${escapedH2}</a></li>`;
+        } else {
+            out += "<li></li>";
+        }
         if (h3s) {
             out += "<ol>";
             for (const h3 of h3s) {

@@ -98,6 +98,7 @@
     "istanbul": "^0.4.5",
     "mocha": "^6.2.2",
     "remap-istanbul": "^0.13.0",
+    "strip-indent": "^3.0.0",
     "ts-loader": "^5.3.3",
     "tslint": "^5.12.1",
     "typescript": "^3.3.1",
