@@ -168,7 +168,15 @@ describe("gfmarkup", () => {
             `));
         });
 
-        it("renders links with custom text", () => {
+        it("renders a link without custom text", () => {
+            expect(sut(`
+                [[top]]
+            `)).toBe(norm(`
+                <a code-line="0" href='#af2c7b4ca07ae6c74d261bc745e174df8ab3ffef'>top</a>
+            `));
+        });
+
+        it("renders a link with custom text", () => {
             expect(sut(`
                 [[top|title]]
             `)).toBe(norm(`
@@ -176,11 +184,35 @@ describe("gfmarkup", () => {
             `));
         });
 
-        it("renders links without custom text", () => {
+        it("renders two links without custom text", () => {
             expect(sut(`
-                [[top]]
+                [[foo]] [[bar]]
             `)).toBe(norm(`
-                <a code-line="0" href='#af2c7b4ca07ae6c74d261bc745e174df8ab3ffef'>top</a>
+                <a code-line="0" href='#0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33'>foo</a> <a href='#62cdb7020ff920e5aa642c3d4066950dd1f01f4d'>bar</a>
+            `));
+        });
+
+        it("renders two links with custom text", () => {
+            expect(sut(`
+                [[foo|bar]] [[baz|quux]]
+            `)).toBe(norm(`
+                <a code-line="0" href='#0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33'>bar</a> <a href='#bbe960a25ea311d21d40669e93df2003ba9b90a2'>quux</a>
+            `));
+        });
+
+        it("renders one link with custom text followed by one without", () => {
+            expect(sut(`
+                [[foo|title]] [[bar]]
+            `)).toBe(norm(`
+                <a code-line="0" href='#0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33'>title</a> <a href='#62cdb7020ff920e5aa642c3d4066950dd1f01f4d'>bar</a>
+            `));
+        });
+
+        it("renders one link without custom text followed by one with", () => {
+            expect(sut(`
+              [[foo]] [[bar|title]]
+            `)).toBe(norm(`
+                <a code-line="0" href='#0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33'>foo</a> <a href='#62cdb7020ff920e5aa642c3d4066950dd1f01f4d'>title</a>
             `));
         });
 

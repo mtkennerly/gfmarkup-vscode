@@ -107,11 +107,12 @@ export function renderMarkupBody(documentText: string, documentUri: vscode.Uri):
         .replace(/&#39;&#39;(.+?)&#39;&#39;/gms, "<b>$1</b>")
         .replace(/\-\-u\-\-(.+?)\-\-u\-\-/gms, "<u>$1</u>")
         .replace(/-s-(.+?)-s-/gm, "<span class='spoiler'>$1</span>")
-        .replace(/\[\[(.+?)\|(.+?)\]\]/gm, (match, p1, p2) => {
-            return `<a href='#${normalizeId(p1)}'>${p2}</a>`;
-        })
-        .replace(/\[\[(.+?)\]\]/gm, (match, p1) => {
-            return `<a href='#${normalizeId(p1)}'>${p1}</a>`;
+        .replace(/\[\[(.+?)(\|(.+?))?\]\]/gm, (match, p1, p2, p3) => {
+            if (p3 === undefined) {
+                return `<a href='#${normalizeId(p1)}'>${p1}</a>`;
+            } else {
+                return `<a href='#${normalizeId(p1)}'>${p3}</a>`;
+            }
         })
         .replace(/^\*.+?\r?\n(?=[^*]|$)/gms, match => {
             return handleList(match, "\\*", "ul", "li");
