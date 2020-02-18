@@ -1,5 +1,7 @@
-## Unreleased
+## v0.6.0 (2020-02-17)
 
+* Fixed an issue with the preview when a link without custom text was followed
+  by a link with custom text.
 * Added background color to table header cells to help distinguish them from
   regular cells that have bold text.
 
