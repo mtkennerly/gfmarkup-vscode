@@ -67,8 +67,8 @@ export function openPreview(state: Array<vscode.WebviewPanel>, extensionPath: st
     const config = Config.load();
     const roots: Array<vscode.Uri> = [
         ...(vscode.workspace.workspaceFolders || []).map(x => x.uri),
-        getVscodeResourceUri(extensionPath),
-        getVscodeResourceUri(config.getImageDirectory(previewedUri)),
+        vscode.Uri.file(extensionPath),
+        vscode.Uri.file(config.getImageDirectory(previewedUri)),
     ];
     panel.webview.options = { enableScripts: true, localResourceRoots: roots };
     panel.webview.html = gfm.renderMarkup(editor.document, panel.webview, topLine);

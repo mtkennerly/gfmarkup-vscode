@@ -1,3 +1,8 @@
+## Unreleased
+
+* Fixed an issue with the preview where the the CSS and JavaScript files were
+  unable to load correctly in newer versions of VSCode.
+
 ## v0.6.0 (2020-02-17)
 
 * Fixed an issue with the preview when a link without custom text was followed
