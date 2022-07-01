@@ -1,4 +1,4 @@
-## Unreleased
+## v0.6.1 (2022-07-01)
 
 * Fixed an issue with the preview where the the CSS and JavaScript files were
   unable to load correctly in newer versions of VSCode.
